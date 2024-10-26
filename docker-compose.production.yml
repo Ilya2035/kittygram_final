@@ -1,0 +1,43 @@
+volumes:
+  pg_data_production:
+  static_volume:
+  media_volume:
+
+services:
+  db:
+    image: postgres:13.10
+    env_file: .env
+    volumes:
+      - pg_data_production:/var/lib/postgresql/data
+
+  backend:
+    image: fyrno/kittygram_backend
+    env_file: .env
+    volumes:
+      - static:/app/collected_static
+      - media:/app/media
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+  frontend:
+    image: fyrno/kittygram_frontend
+    env_file: .env
+    command: cp -r /app/build/. /frontend_static/
+    volumes:
+      - static:/frontend_static
+    ports:
+      - "3000:3000"
+
+  gateway:
+    image: fyrno/kittygram_gateway
+    env_file: .env
+    volumes:
+      - static:/var/www/kittygram/static
+      - media:/var/www/kittygram/media
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+      - frontend
