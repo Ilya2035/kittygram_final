@@ -17,7 +17,7 @@ services:
       - static:/app/collected_static
       - media:/app/media
     ports:
-      - "8081:8080"
+      - "8081:8081"
     depends_on:
       - db
     command: sh -c "mkdir -p /backend_static/static /app/media && gunicorn kittygram_backend.wsgi:application --bind 0.0.0.0:8081"
@@ -38,7 +38,7 @@ services:
       - static:/var/www/kittygram/static
       - media:/var/www/kittygram/media
     ports:
-      - "8081:80"
+      - "80:80"
     depends_on:
       - backend
       - frontend
