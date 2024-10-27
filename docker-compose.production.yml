@@ -20,11 +20,12 @@ services:
       - "8081:8080"
     depends_on:
       - db
+    command: sh -c "mkdir -p /backend_static/static /app/media && gunicorn backend.wsgi:application --bind 0.0.0.0:8080"
 
   frontend:
     image: fyrno/kittygram_frontend
     env_file: .env
-    command: cp -r /app/build/. /frontend_static/
+    command: sh -c "mkdir -p /frontend_static && cp -r /app/build/. /frontend_static/"
     volumes:
       - static:/frontend_static
     ports:
