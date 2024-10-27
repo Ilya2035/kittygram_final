@@ -20,7 +20,7 @@ services:
       - "8081:8080"
     depends_on:
       - db
-    command: sh -c "mkdir -p /backend_static/static /app/media && gunicorn backend.wsgi:application --bind 0.0.0.0:8080"
+    command: sh -c "mkdir -p /backend_static/static /app/media && gunicorn kittygram_backend.wsgi:application --bind 0.0.0.0:8081"
 
   frontend:
     image: fyrno/kittygram_frontend
