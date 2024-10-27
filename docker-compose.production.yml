@@ -38,7 +38,7 @@ services:
       - static:/var/www/kittygram/static
       - media:/var/www/kittygram/media
     ports:
-      - "8080:80"
+      - "8081:80"
     depends_on:
       - backend
       - frontend
