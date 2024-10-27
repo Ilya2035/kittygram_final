@@ -10,4 +10,4 @@ COPY . .
 
 RUN python manage.py collectstatic --noinput
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8080", "backend.wsgi"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8081", "backend.wsgi"]
