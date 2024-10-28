@@ -1,8 +1,3 @@
-volumes:
-  pg_data:
-  static:
-  media:
-
 services:
   db:
     image: postgres:13.10
@@ -14,18 +9,16 @@ services:
     image: fyrno/kittygram_backend
     env_file: .env
     volumes:
-      - static:/app/collected_static
+      - static:/app/static
       - media:/app/media
     ports:
       - "8081:8081"
     depends_on:
       - db
-    command: sh -c "mkdir -p /backend_static/static /app/media && gunicorn kittygram_backend.wsgi:application --bind 0.0.0.0:8081"
 
   frontend:
     image: fyrno/kittygram_frontend
     env_file: .env
-    command: cp -r /app/build/. /frontend_static/"
     volumes:
       - static:/frontend_static
     ports:
@@ -38,7 +31,12 @@ services:
       - static:/var/www/kittygram/static
       - media:/var/www/kittygram/media
     ports:
-      - "8081:80"
+      - "80:80"
     depends_on:
       - backend
       - frontend
+
+volumes:
+  pg_data:
+  static:
+  media:
