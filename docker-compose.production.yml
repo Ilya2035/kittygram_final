@@ -25,7 +25,7 @@ services:
   frontend:
     image: fyrno/kittygram_frontend
     env_file: .env
-    command: sh -c "mkdir -p /frontend_static && cp -r /app/build/. /frontend_static/"
+    command: cp -r /app/build/. /frontend_static/"
     volumes:
       - static:/frontend_static
     ports:
@@ -38,7 +38,7 @@ services:
       - static:/var/www/kittygram/static
       - media:/var/www/kittygram/media
     ports:
-      - "8081:8081"
+      - "8081:80"
     depends_on:
       - backend
       - frontend
