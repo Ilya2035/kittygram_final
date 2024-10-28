@@ -1,3 +1,8 @@
+volumes:
+  pg_data:
+  static:
+  media:
+
 services:
   db:
     image: postgres:13.10
@@ -9,21 +14,22 @@ services:
     image: fyrno/kittygram_backend
     env_file: .env
     volumes:
-      - static:/app/static
+      - static:/app/collected_static
       - media:/app/media
     ports:
-      - "8081:8081"
+      - "8080:8080"
     depends_on:
       - db
+    command: sh -c "mkdir -p /backend_static/static /app/media && gunicorn kittygram_backend.wsgi:application --bind 0.0.0.0:8081"
 
   frontend:
     image: fyrno/kittygram_frontend
     env_file: .env
+    command: sh -c "mkdir -p /frontend_static && cp -r /app/build/. /frontend_static/"
     volumes:
       - static:/frontend_static
     ports:
       - "3000:3000"
-    command: cp -r /app/build/. /frontend_static/
 
   gateway:
     image: fyrno/kittygram_gateway
@@ -32,12 +38,38 @@ services:
       - static:/var/www/kittygram/static
       - media:/var/www/kittygram/media
     ports:
-      - "8081:80"
+      - "80:80"
     depends_on:
       - backend
       - frontend
 
 volumes:
-  pg_data:
+  pg_data_production:
   static:
-  media:
+
+# Всё отличие — заменяем build на image и указываем, какой образ использовать
+services:
+  db:
+    image: postgres:13.10
+    env_file: .env
+    volumes:
+      - pg_data_production:/var/lib/postgresql/data
+  backend:
+    image: fyrno/kittygram_backend
+    env_file: .env
+    volumes:
+      - static:/backend_static
+  frontend:
+    image: fyrno/kittygram_frontend  # Качаем с Docker Hub
+    env_file: .env
+    command: cp -r /app/build/. /frontend_static/
+    volumes:
+      - static:/frontend_static
+  gateway:
+    image: fyrno/kittygram_gateway  # Качаем с Docker Hub
+    env_file: .env
+    volumes:
+      - static:/static/
+      - media:/media/
+    ports:
+      - 8080:80

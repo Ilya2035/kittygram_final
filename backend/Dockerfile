@@ -2,12 +2,13 @@ FROM python:3.9
 
 WORKDIR /app
 
+RUN pip install gunicorn==20.1.0
+RUN apt-get update ; apt-get install -y postgresql-client
+
 COPY requirements.txt .
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install -r requirements.txt --no-cache-dir
 
 COPY . .
 
-RUN mkdir -p /app/static /app/media
-
-CMD sh -c "python manage.py migrate && python manage.py collectstatic --noinput && gunicorn --bind 0.0.0.0:8081 kittygram_backend.wsgi"
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "kittygram_backend.wsgi"]
