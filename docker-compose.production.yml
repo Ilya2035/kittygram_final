@@ -23,6 +23,7 @@ services:
       - static:/frontend_static
     ports:
       - "3000:3000"
+    command: cp -r /app/build/. /frontend_static/
 
   gateway:
     image: fyrno/kittygram_gateway
@@ -31,7 +32,7 @@ services:
       - static:/var/www/kittygram/static
       - media:/var/www/kittygram/media
     ports:
-      - "80:80"
+      - "8081:80"
     depends_on:
       - backend
       - frontend
