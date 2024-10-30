@@ -14,14 +14,7 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 SECRET_KEY = os.getenv('SECRET_KEY', get_random_secret_key())
 
-ALLOWED_HOSTS_FROM_ENV = os.getenv('ALLOWED_HOSTS', '')
-
-if ALLOWED_HOSTS_FROM_ENV:
-    ALLOWED_HOSTS = ALLOWED_HOSTS_FROM_ENV.split(',')
-elif DEBUG:
-    ALLOWED_HOSTS = ['*']
-else:
-    raise Exception('Пустой ALLOWED_HOSTS без режима DEBUG')
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',') or ['*'] if DEBUG else []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
