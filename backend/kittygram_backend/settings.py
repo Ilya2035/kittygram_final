@@ -14,9 +14,7 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 SECRET_KEY = os.getenv('SECRET_KEY', get_random_secret_key())
 
-ALLOWED_HOSTS_FROM_ENV = os.getenv('ALLOWED_HOSTS')
-
-print(ALLOWED_HOSTS_FROM_ENV)
+ALLOWED_HOSTS_FROM_ENV = os.getenv('ALLOWED_HOSTS', '')
 
 if ALLOWED_HOSTS_FROM_ENV:
     ALLOWED_HOSTS = ALLOWED_HOSTS_FROM_ENV.split(',')
