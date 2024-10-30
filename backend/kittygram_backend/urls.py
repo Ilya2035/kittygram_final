@@ -1,3 +1,5 @@
+"""Пути господни не исповедимы."""
+
 from cats.views import AchievementViewSet, CatViewSet
 from django.conf import settings
 from django.conf.urls.static import static

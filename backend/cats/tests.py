@@ -1,3 +1,5 @@
+"""Файл тесты."""
+
 from http import HTTPStatus
 
 from django.contrib.auth import get_user_model
@@ -8,7 +10,10 @@ User = get_user_model()
 
 
 class CatsAPITestCase(TestCase):
+    """Тесты для API списка кошек."""
+
     def setUp(self):
+        """Создание пользователя и настройка аутентифицированного клиента."""
         self.user = User.objects.create_user(username='auth_user')
         self.client = APIClient()
         self.client.force_authenticate(user=self.user)

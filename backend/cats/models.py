@@ -1,3 +1,5 @@
+"""Модели приложения."""
+
 from django.contrib.auth import get_user_model
 from django.db import models
 
@@ -5,13 +7,18 @@ User = get_user_model()
 
 
 class Achievement(models.Model):
+    """Класс общей модели."""
+
     name = models.CharField(max_length=64)
 
     def __str__(self):
+        """Пояснения к модели."""
         return self.name
 
 
 class Cat(models.Model):
+    """Модель котов."""
+
     name = models.CharField(max_length=16)
     color = models.CharField(max_length=16)
     birth_year = models.IntegerField()
@@ -28,12 +35,16 @@ class Cat(models.Model):
     )
 
     def __str__(self):
+        """Вывод пояснений."""
         return self.name
 
 
 class AchievementCat(models.Model):
+    """Модель тегов котов."""
+
     achievement = models.ForeignKey(Achievement, on_delete=models.CASCADE)
     cat = models.ForeignKey(Cat, on_delete=models.CASCADE)
 
     def __str__(self):
+        """Вывод значения."""
         return f'{self.achievement} {self.cat}'
