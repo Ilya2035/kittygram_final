@@ -16,8 +16,10 @@ ALLOWED_HOSTS_FROM_ENV = os.getenv('ALLOWED_HOSTS')
 
 if ALLOWED_HOSTS_FROM_ENV:
     ALLOWED_HOSTS = ALLOWED_HOSTS_FROM_ENV.split(',')
+elif DEBUG:
+    ALLOWED_HOSTS = ['*']
 else:
-    ALLOWED_HOSTS = []
+    raise Exception('Пустой ALLOWED_HOSTS без режима DEBUG')
 
 INSTALLED_APPS = [
     'django.contrib.admin',

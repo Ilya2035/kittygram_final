@@ -17,6 +17,8 @@ services:
     volumes:
       - static:/backend_static
       - media:/backend_media
+    depends_on:
+      - db
 
   frontend:
     image: fyrno/kittygram_frontend
@@ -32,3 +34,5 @@ services:
       - media:/mediafiles
     ports:
       - 9000:80
+    depends_on:
+      - backend
