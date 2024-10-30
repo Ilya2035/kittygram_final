@@ -1,3 +1,4 @@
+
 volumes:
   pg_data:
   static:
@@ -17,16 +18,14 @@ services:
       - media:/backend_media
   frontend:
     image: fyrno/kittygram_frontend
-    env_file: .env
     command: cp -r /app/build/. /frontend_static/
     volumes:
       - static:/frontend_static
-      - media:/backend_media
   nginx:
-    image: fyrno/kittygram_gateway
+    image: fyrno/kittygram_nginx
     env_file: .env
     volumes:
-      - static:/backend_static
-      - media:/backend_media
+      - static:/staticfiles
+      - media:/mediafiles
     ports:
-      - 8080:80
+      - 9000:80
